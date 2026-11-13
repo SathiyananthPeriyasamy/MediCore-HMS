@@ -62,17 +62,22 @@ pipeline {
 
         stage('Deploy to AWS EC2') {
             steps {
-                echo "Deploying to AWS EC2 instance (${EC2_HOST})..."
+                echo "Deploying to AWS EC2 instance..."
                 withCredentials([sshUserPrivateKey(credentialsId: "${EC2_CREDENTIALS_ID}", keyFileVariable: 'SSH_KEY_FILE')]) {
                     bat """
+                        rem 0. Fix Windows permissions on SSH key file (strip BUILTIN\\Users)
+                        powershell -Command "\$acl = Get-Acl '%SSH_KEY_FILE%'; \$acl.SetAccessRuleProtection(\$true, \$false); \$rule = New-Object System.Security.AccessControl.FileSystemAccessRule([System.Security.Principal.WindowsIdentity]::GetCurrent().Name, 'FullControl', 'Allow'); \$acl.SetAccessRule(\$rule); Set-Acl '%SSH_KEY_FILE%' \$acl"
+                        icacls "%SSH_KEY_FILE%" /remove:g "BUILTIN\\Users" >nul 2>&1
+                        icacls "%SSH_KEY_FILE%" /remove:g "Users" >nul 2>&1
+
                         rem 1. Prepare target deployment directory on EC2
-                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} "mkdir -p ${DEPLOY_PATH}"
+                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no %EC2_USER%@%EC2_HOST% "mkdir -p %DEPLOY_PATH%"
 
                         rem 2. Copy production docker-compose file to EC2
-                        scp -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no docker-compose.prod.yml ${EC2_USER}@${EC2_HOST}:${DEPLOY_PATH}/docker-compose.yml
+                        scp -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no docker-compose.prod.yml %EC2_USER%@%EC2_HOST%:%DEPLOY_PATH%/docker-compose.yml
 
                         rem 3. Pull latest images and restart containers on EC2
-                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} "cd ${DEPLOY_PATH} && export DOCKER_IMAGE_BACKEND=${BACKEND_IMAGE}:${IMAGE_TAG} && export DOCKER_IMAGE_FRONTEND=${FRONTEND_IMAGE}:${IMAGE_TAG} && docker compose pull && docker compose up -d --remove-orphans && docker image prune -f"
+                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no %EC2_USER%@%EC2_HOST% "cd %DEPLOY_PATH% && export DOCKER_IMAGE_BACKEND=${BACKEND_IMAGE}:${IMAGE_TAG} && export DOCKER_IMAGE_FRONTEND=${FRONTEND_IMAGE}:${IMAGE_TAG} && docker compose pull && docker compose up -d --remove-orphans && docker image prune -f"
                     """
                 }
             }
@@ -80,9 +85,9 @@ pipeline {
 
         stage('Verify Deployment Health') {
             steps {
-                echo 'Running post-deployment health check on EC2...'
+                echo "Running post-deployment health check on EC2..."
                 bat """
-                    curl.exe --fail --retry 5 --retry-delay 3 http://${EC2_HOST}/api/health
+                    curl.exe --fail --retry 5 --retry-delay 3 http://%EC2_HOST%/api/health
                 """
             }
         }
@@ -96,7 +101,7 @@ pipeline {
             """
         }
         success {
-            echo "🎉 MediCore HMS successfully deployed to AWS EC2 (http://${EC2_HOST})!"
+            echo "🎉 MediCore HMS successfully deployed to AWS EC2!"
         }
         failure {
             echo '❌ Pipeline failed! Please check logs for details.'
