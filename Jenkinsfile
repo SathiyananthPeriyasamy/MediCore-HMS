@@ -10,9 +10,9 @@ pipeline {
         IMAGE_TAG             = "${BUILD_NUMBER}"
 
         // Physical Target Server Configuration (Company On-Premise Server)
-        SERVER_HOST           = "${ec2-host}"         // Physical Server IP
-        SERVER_USER           = 'cubeai'                // Target Linux user (e.g. ubuntu, root, admin, devops)
-        SERVER_CREDENTIALS_ID = 'ec2-ssh-mum'           // Jenkins SSH key Credentials ID
+        SERVER_HOST           = credentials('serverip') // Injected dynamically from Jenkins secret text 'serverip'
+        SERVER_USER           = 'cubeai'                // Target Linux user on physical server
+        SERVER_CREDENTIALS_ID = 'server-cred'           // Matches your SSH private key Credential ID
         DEPLOY_PATH           = "/home/${SERVER_USER}/medicore-hms"
     }
 
@@ -38,9 +38,9 @@ pipeline {
             steps {
                 echo "Building Docker images with tag: ${IMAGE_TAG} and latest..."
                 bat """
-                    docker build -t ${BACKEND_IMAGE}:${IMAGE_TAG} -t ${BACKEND_IMAGE}:latest -f backend/Dockerfile .
+                    docker build --network=host -t ${BACKEND_IMAGE}:${IMAGE_TAG} -t ${BACKEND_IMAGE}:latest -f backend/Dockerfile .
                     if errorlevel 1 exit /b 1
-                    docker build -t ${FRONTEND_IMAGE}:${IMAGE_TAG} -t ${FRONTEND_IMAGE}:latest -f frontend/Dockerfile .
+                    docker build --network=host -t ${FRONTEND_IMAGE}:${IMAGE_TAG} -t ${FRONTEND_IMAGE}:latest -f frontend/Dockerfile .
                     if errorlevel 1 exit /b 1
                 """
             }
@@ -105,13 +105,13 @@ pipeline {
     post {
         always {
             echo 'Cleaning up local workspace images...'
-            bat """
+            bat '''
                 docker logout || exit 0
-                docker rmi ${BACKEND_IMAGE}:${IMAGE_TAG} ${BACKEND_IMAGE}:latest ${FRONTEND_IMAGE}:${IMAGE_TAG} ${FRONTEND_IMAGE}:latest || exit 0
-            """
+                docker rmi %BACKEND_IMAGE%:%IMAGE_TAG% %BACKEND_IMAGE%:latest %FRONTEND_IMAGE%:%IMAGE_TAG% %FRONTEND_IMAGE%:latest 2>nul || exit 0
+            '''
         }
         success {
-            echo "🎉 MediCore HMS successfully deployed to Physical Server (http://${SERVER_HOST})!"
+            echo "🎉 MediCore HMS successfully deployed to Physical Server!"
         }
         failure {
             echo '❌ Pipeline failed! Please check logs for details.'
