@@ -1,0 +1,57 @@
+services:
+  # 1. PostgreSQL Database Service (Completely private - No host ports exposed)
+  postgres:
+    image: postgres:16-alpine
+    container_name: medicore-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${PG_USER:-postgres}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
+      POSTGRES_DB: ${PG_DATABASE:-medicore_db}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - medicore-network
+
+  # 2. Express REST API Backend (Completely private - No host ports exposed)
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: medicore-backend
+    restart: unless-stopped
+    environment:
+      - PORT=5000
+      - DB_TYPE=postgres
+      - PG_HOST=postgres
+      - PG_PORT=5432
+      - PG_USER=${PG_USER:-postgres}
+      - PG_PASSWORD=${PG_PASSWORD:-postgres}
+      - PG_DATABASE=${PG_DATABASE:-medicore_db}
+    depends_on:
+      - postgres
+    networks:
+      - medicore-network
+
+  # 3. Nginx Reverse Proxy & Frontend Web Application
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: medicore-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - medicore-network
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  medicore-network:
+    driver: bridge
+

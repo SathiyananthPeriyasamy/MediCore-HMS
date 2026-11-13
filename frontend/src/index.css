@@ -1,0 +1,1347 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   USER BRAND PALETTE HARMONIZATION: STEEL SLATE BLUE
+   Exact signature shade sampled from user reference:
+   Primary: #3B4E6A | Hover: #2E3E55 | Mid Accent: #485E83 | Light: #506D9C
+   Harmonizes all portals and all buttons with the sidebar shade
+   ============================================================ */
+@theme {
+  --color-brand-primary: #3B4E6A;
+  --color-brand-primary-hover: #2E3E55;
+  --color-brand-accent: #485E83;
+  --color-brand-accent-hover: #3B4E6A;
+  --color-brand-light: #506D9C;
+
+  /* Harmonize teal scale across all portals and buttons */
+  --color-teal-50: #F1F4F9;
+  --color-teal-100: #E2E8F1;
+  --color-teal-200: #C5D2E3;
+  --color-teal-300: #9CB3CF;
+  --color-teal-400: #6D8EB7;
+  --color-teal-500: #506D9C;
+  --color-teal-600: #3B4E6A;
+  --color-teal-700: #2E3E55;
+  --color-teal-800: #233042;
+  --color-teal-900: #1A2433;
+  --color-teal-950: #0F1620;
+
+  /* Harmonize sky scale across all portals and buttons */
+  --color-sky-50: #F1F4F9;
+  --color-sky-100: #E2E8F1;
+  --color-sky-200: #C5D2E3;
+  --color-sky-300: #9CB3CF;
+  --color-sky-400: #6D8EB7;
+  --color-sky-500: #506D9C;
+  --color-sky-600: #3B4E6A;
+  --color-sky-700: #2E3E55;
+  --color-sky-800: #233042;
+  --color-sky-900: #1A2433;
+  --color-sky-950: #0F1620;
+
+  /* Harmonize cyan scale across all portals and buttons */
+  --color-cyan-500: #506D9C;
+  --color-cyan-600: #485E83;
+  --color-cyan-700: #3B4E6A;
+
+  /* Harmonize emerald scale to left sidebar Steel Slate Blue across all modules & portals */
+  --color-emerald-50: #F1F4F9;
+  --color-emerald-100: #E2E8F1;
+  --color-emerald-200: #C5D2E3;
+  --color-emerald-300: #9CB3CF;
+  --color-emerald-400: #6D8EB7;
+  --color-emerald-500: #506D9C;
+  --color-emerald-600: #3B4E6A;
+  --color-emerald-700: #2E3E55;
+  --color-emerald-800: #233042;
+  --color-emerald-900: #1A2433;
+  --color-emerald-950: #0F1620;
+
+  /* Harmonize green scale to left sidebar Steel Slate Blue across all modules & portals */
+  --color-green-50: #F1F4F9;
+  --color-green-100: #E2E8F1;
+  --color-green-200: #C5D2E3;
+  --color-green-300: #9CB3CF;
+  --color-green-400: #6D8EB7;
+  --color-green-500: #506D9C;
+  --color-green-600: #3B4E6A;
+  --color-green-700: #2E3E55;
+  --color-green-800: #233042;
+  --color-green-900: #1A2433;
+  --color-green-950: #0F1620;
+
+  /* Harmonize lime scale to left sidebar Steel Slate Blue */
+  --color-lime-50: #F1F4F9;
+  --color-lime-100: #E2E8F1;
+  --color-lime-200: #C5D2E3;
+  --color-lime-300: #9CB3CF;
+  --color-lime-400: #6D8EB7;
+  --color-lime-500: #506D9C;
+  --color-lime-600: #3B4E6A;
+  --color-lime-700: #2E3E55;
+  --color-lime-800: #233042;
+  --color-lime-900: #1A2433;
+  --color-lime-950: #0F1620;
+}
+
+/* ============================================================
+   DOCR-INSPIRED MEDICORE DESIGN SYSTEM
+   Professional Healthcare SaaS — CSS Custom Properties
+   ============================================================ */
+
+@layer base {
+  :root {
+    /* Brand Colors - Harmonized Steel Slate Blue Palette (Exact User Reference) */
+    --color-brand-primary: #3B4E6A;
+    --color-brand-primary-hover: #2E3E55;
+    --color-brand-accent: #485E83;
+    --color-brand-accent-hover: #3B4E6A;
+    --color-brand-light: #506D9C;
+    --color-brand-glow: rgba(59, 78, 106, 0.35);
+
+    /* Surfaces (Light Mode) */
+    --color-bg: #F4F7FA;
+    --color-surface: #FFFFFF;
+    --color-surface-2: #F8FAFC;
+    --color-surface-3: #E8EEF5;
+    --color-border: #DDE3EA;
+    --color-border-light: #EDF2F7;
+
+    /* Text (Light Mode) */
+    --color-text-primary: #1E293B;
+    --color-text-secondary: #64748B;
+    --color-text-muted: #94A3B8;
+    --color-text-inverse: #FFFFFF;
+
+    /* Semantic Colors - Harmonized with Left Sidebar Steel Slate Blue */
+    --color-success: #3B4E6A;
+    --color-success-bg: rgba(59, 78, 106, 0.12);
+    --color-warning: #F59E0B;
+    --color-warning-bg: #FFFBEB;
+    --color-danger: #EF4444;
+    --color-danger-bg: #FEF2F2;
+    --color-info: #3B82F6;
+    --color-info-bg: #EFF6FF;
+    --color-purple: #8B5CF6;
+    --color-purple-bg: #F5F3FF;
+    --color-orange: #F97316;
+    --color-orange-bg: #FFF7ED;
+
+    /* Sidebar */
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 72px;
+    --header-height: 60px;
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-sm: 0 2px 8px -2px rgba(15,23,42,0.06), 0 1px 3px 0 rgba(15,23,42,0.03);
+    --shadow-md: 0 4px 16px -2px rgba(15,23,42,0.08), 0 2px 6px -1px rgba(15,23,42,0.04);
+    --shadow-lg: 0 12px 32px -4px rgba(15,23,42,0.10), 0 4px 12px -2px rgba(15,23,42,0.05);
+    --shadow-xl: 0 20px 48px -8px rgba(15,23,42,0.14), 0 8px 20px -4px rgba(15,23,42,0.06);
+    --shadow-card: 0 1px 3px 0 rgba(15,23,42,0.03), 0 4px 14px 0 rgba(15,23,42,0.04);
+    --shadow-card-hover: 0 8px 24px -4px rgba(59, 78, 106, 0.15), 0 2px 8px -1px rgba(15,23,42,0.04);
+    --shadow-glow-teal: 0 0 18px -2px rgba(59, 78, 106, 0.28);
+    --shadow-glow-emerald: 0 0 18px -2px rgba(59, 78, 106, 0.28);
+
+    /* Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-2xl: 24px;
+    --radius-full: 9999px;
+  }
+
+  .dark {
+    /* Surfaces (Dark Mode) */
+    --color-bg: #07111E;
+    --color-surface: #0E2035;
+    --color-surface-2: #111E30;
+    --color-surface-3: #0C1929;
+    --color-border: rgba(255,255,255,0.08);
+    --color-border-light: rgba(255,255,255,0.05);
+
+    /* Text (Dark Mode) */
+    --color-text-primary: #F1F5F9;
+    --color-text-secondary: #94A3B8;
+    --color-text-muted: #64748B;
+    --color-text-inverse: #1E293B;
+
+    /* Semantic Colors Dark Surfaces */
+    --color-success-bg: rgba(80, 109, 156, 0.20);
+    --color-warning-bg: rgba(245,158,11,0.12);
+    --color-danger-bg: rgba(239,68,68,0.12);
+    --color-info-bg: rgba(59,130,246,0.12);
+    --color-purple-bg: rgba(139,92,246,0.12);
+    --color-orange-bg: rgba(249,115,22,0.12);
+
+    /* Shadows Dark */
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.3);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.5), 0 4px 10px rgba(0,0,0,0.3);
+    --shadow-xl: 0 20px 50px rgba(0,0,0,0.6), 0 8px 16px rgba(0,0,0,0.4);
+    --shadow-card: 0 2px 10px 0 rgba(0,0,0,0.4), 0 1px 3px 0 rgba(0,0,0,0.3);
+    --shadow-card-hover: 0 6px 22px -2px rgba(59, 78, 106, 0.3), 0 2px 8px 0 rgba(0,0,0,0.4);
+    --shadow-glow-teal: 0 0 20px -2px rgba(80, 109, 156, 0.4);
+    --shadow-glow-emerald: 0 0 20px -2px rgba(80, 109, 156, 0.4);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+  }
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* ============================================================
+   GLASSMORPHISM PANELS
+   ============================================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+.dark .glass {
+  background: rgba(14, 32, 53, 0.90);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ============================================================
+   DOCR SIDEBAR - STEEL SLATE BLUE GRADIENT (EXACT USER PALETTE)
+   ============================================================ */
+.docr-sidebar {
+  --color-surface: rgba(255, 255, 255, 0.16);
+  --color-surface-2: rgba(255, 255, 255, 0.22);
+  --color-border: rgba(255, 255, 255, 0.18);
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #e2e8f0;
+  --color-text-muted: #cbd5e1;
+  width: var(--sidebar-width);
+  background: linear-gradient(180deg, #3B4E6A 0%, #44597C 35%, #485E83 70%, #506D9C 100%) !important;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+  transition: width 0.25s cubic-bezier(0.4,0,0.2,1);
+  flex-shrink: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 35px rgba(59, 78, 106, 0.45) !important;
+  color: #ffffff;
+  overflow: hidden;
+}
+.docr-sidebar.collapsed {
+  width: var(--sidebar-collapsed-width);
+}
+
+/* Healthcare / Hospital Project-Related Visual Design */
+.sidebar-medical-fx {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.med-ecg-svg {
+  position: absolute;
+  width: 320px;
+  height: 72px;
+  pointer-events: none;
+}
+.med-ecg-svg.top {
+  top: 70px;
+  left: -15px;
+  opacity: 0.55;
+}
+.med-ecg-svg.bottom {
+  bottom: 85px;
+  left: -15px;
+  opacity: 0.45;
+}
+.med-ecg-line {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: sweepEcg 4s linear infinite;
+}
+.med-ecg-glow {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: blur(4px);
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: sweepEcg 4s linear infinite;
+}
+
+.med-cross {
+  position: absolute;
+  color: #ffffff;
+  font-weight: 900;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.6);
+  animation: floatMedCross 14s ease-in-out infinite;
+}
+.med-cross.mc1 { font-size: 38px; top: 12%; right: 12px; opacity: 0.32; animation-duration: 15s; }
+.med-cross.mc2 { font-size: 58px; top: 42%; left: -10px; opacity: 0.22; animation-duration: 19s; animation-delay: -3s; }
+.med-cross.mc3 { font-size: 32px; top: 65%; right: 20px; opacity: 0.30; animation-duration: 12s; animation-delay: -5s; }
+.med-cross.mc4 { font-size: 46px; bottom: 110px; left: 12px; opacity: 0.25; animation-duration: 16s; animation-delay: -7s; }
+
+.docr-sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff !important;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  border: 1px solid transparent;
+}
+.docr-sidebar-nav-item:hover {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(8px);
+  transform: translateX(3px);
+}
+.docr-sidebar-nav-item.active {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  font-weight: 800 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  transform: translateX(4px);
+}
+.dark .docr-sidebar-nav-item.active {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  font-weight: 800 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+}
+.docr-sidebar-nav-item .nav-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: inherit;
+}
+
+/* ============================================================
+   DOCR MAIN LAYOUT
+   ============================================================ */
+.docr-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.docr-main {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  min-width: 0;
+  transition: margin-left 0.25s cubic-bezier(0.4,0,0.2,1);
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-collapsed .docr-main,
+.docr-sidebar.collapsed ~ .docr-main {
+  margin-left: var(--sidebar-collapsed-width);
+}
+
+.docr-topbar {
+  height: var(--header-height);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.docr-content {
+  flex: 1;
+  padding: 24px;
+  background: var(--color-bg);
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* ============================================================
+   DOCR CARDS
+   ============================================================ */
+.docr-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.docr-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.executive-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.executive-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(13, 148, 136, 0.25);
+}
+
+/* Global shadow-xs refinement across all hospital cards */
+.shadow-xs {
+  box-shadow: var(--shadow-card) !important;
+  transition: box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, transform 0.25s ease !important;
+}
+.shadow-xs:hover {
+  box-shadow: var(--shadow-card-hover) !important;
+}
+
+.docr-stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+.docr-stat-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   DOCR BUTTONS (HARMONIZED STEEL SLATE BLUE)
+   ============================================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background: linear-gradient(135deg, #3B4E6A 0%, #485E83 100%) !important;
+  color: #fff !important;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 14px rgba(59, 78, 106, 0.35);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #2E3E55 0%, #3B4E6A 100%) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(59, 78, 106, 0.45);
+}
+
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background: linear-gradient(135deg, #485E83 0%, #506D9C 100%) !important;
+  color: #fff !important;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 14px rgba(72, 94, 131, 0.35);
+}
+.btn-accent:hover {
+  background: linear-gradient(135deg, #3B4E6A 0%, #485E83 100%) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(72, 94, 131, 0.45);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  transition: all 0.15s ease;
+}
+.btn-ghost:hover {
+  background: var(--color-surface-2);
+  color: var(--color-text-primary);
+  border-color: var(--color-text-muted);
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(239,68,68,0.1);
+  color: #EF4444;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(239,68,68,0.2);
+  transition: all 0.15s ease;
+}
+.btn-danger:hover {
+  background: #EF4444;
+  color: white;
+}
+
+/* ============================================================
+   DOCR BADGES
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.badge-success {
+  background: rgba(59, 78, 106, 0.12) !important;
+  color: #3B4E6A !important;
+  border: 1px solid rgba(72, 94, 131, 0.25) !important;
+}
+.dark .badge-success {
+  background: rgba(80, 109, 156, 0.20) !important;
+  color: #c5d2e3 !important;
+  border-color: rgba(80, 109, 156, 0.35) !important;
+}
+.badge-warning { background: var(--color-warning-bg); color: #D97706; }
+.dark .badge-warning { color: #FBBF24; }
+.badge-danger { background: var(--color-danger-bg); color: #DC2626; }
+.dark .badge-danger { color: #F87171; }
+.badge-info { background: var(--color-info-bg); color: #2563EB; }
+.dark .badge-info { color: #60A5FA; }
+.badge-purple { background: var(--color-purple-bg); color: #7C3AED; }
+.dark .badge-purple { color: #A78BFA; }
+.badge-orange { background: var(--color-orange-bg); color: #EA580C; }
+.dark .badge-orange { color: #FB923C; }
+.badge-neutral { background: var(--color-surface-2); color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+
+/* Executive Healthcare Badges - Harmonized Steel Slate Blue */
+.badge-optimal {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2.5px 10px;
+  border-radius: 9999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(59, 78, 106, 0.12) !important;
+  color: #3B4E6A !important;
+  border: 1px solid rgba(72, 94, 131, 0.30) !important;
+}
+.dark .badge-optimal {
+  background: rgba(80, 109, 156, 0.20) !important;
+  color: #c5d2e3 !important;
+  border-color: rgba(80, 109, 156, 0.40) !important;
+}
+
+.badge-elevated {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2.5px 10px;
+  border-radius: 9999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(245, 158, 11, 0.10);
+  color: #B45309;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+.dark .badge-elevated {
+  background: rgba(245, 158, 11, 0.15);
+  color: #FBBF24;
+  border-color: rgba(245, 158, 11, 0.30);
+}
+
+.badge-critical {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2.5px 10px;
+  border-radius: 9999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(239, 68, 68, 0.10);
+  color: #B91C1C;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+.dark .badge-critical {
+  background: rgba(239, 68, 68, 0.15);
+  color: #F87171;
+  border-color: rgba(239, 68, 68, 0.30);
+}
+
+.badge-teal {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2.5px 10px;
+  border-radius: 9999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(59, 78, 106, 0.12);
+  color: #3B4E6A;
+  border: 1px solid rgba(72, 94, 131, 0.30);
+}
+.dark .badge-teal {
+  background: rgba(80, 109, 156, 0.20);
+  color: #9cb3cf;
+  border-color: rgba(80, 109, 156, 0.40);
+}
+
+/* Micro-label utility */
+.micro-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+/* ECG Line scan & Heartbeat Animation */
+@keyframes live-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.75; }
+}
+
+.animate-live-pulse {
+  animation: live-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ============================================================
+   DOCR FORM INPUTS
+   ============================================================ */
+.docr-input {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  color: var(--color-text-primary);
+  outline: none;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.docr-input::placeholder { color: var(--color-text-muted); }
+.docr-input:focus {
+  border-color: var(--color-brand-primary);
+  box-shadow: 0 0 0 3px rgba(15,82,186,0.1);
+  background: var(--color-surface);
+}
+.dark .docr-input {
+  background: var(--color-surface-2);
+  border-color: var(--color-border);
+}
+.dark .docr-input:focus {
+  border-color: #60A5FA;
+  box-shadow: 0 0 0 3px rgba(96,165,250,0.12);
+}
+
+/* Input icon padding utilities with !important so they are never overridden */
+.docr-input-with-icon-left {
+  padding-left: 42px !important;
+}
+.docr-input-with-icon-right {
+  padding-right: 42px !important;
+}
+.docr-input-with-both-icons {
+  padding-left: 42px !important;
+  padding-right: 42px !important;
+}
+
+.docr-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748B' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.docr-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+/* ============================================================
+   DOCR TABLES
+   ============================================================ */
+.docr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.docr-table th {
+  text-align: left;
+  padding: 11px 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+.docr-table th:first-child { border-radius: 8px 0 0 0; }
+.docr-table th:last-child { border-radius: 0 8px 0 0; }
+.docr-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-text-primary);
+  vertical-align: middle;
+}
+.docr-table tr:last-child td { border-bottom: none; }
+.docr-table tbody tr {
+  transition: background 0.1s ease;
+}
+.docr-table tbody tr:hover {
+  background: var(--color-surface-2);
+}
+
+/* ============================================================
+   DOCR PAGE HEADER
+   ============================================================ */
+.docr-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.docr-page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+}
+.docr-page-subtitle {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: 3px;
+}
+
+/* ============================================================
+   DOCR STAT CARDS
+   ============================================================ */
+.stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.5px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+.stat-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+.stat-trend-up {
+  background: rgba(59, 78, 106, 0.12) !important;
+  color: #3B4E6A !important;
+}
+.dark .stat-trend-up {
+  background: rgba(80, 109, 156, 0.20) !important;
+  color: #c5d2e3 !important;
+}
+.stat-trend-down { background: var(--color-danger-bg); color: #DC2626; }
+.dark .stat-trend-down { color: #F87171; }
+
+/* ============================================================
+   DOCR MODALS
+   ============================================================ */
+.docr-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: modalFadeIn 0.15s ease;
+}
+.docr-modal {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalSlideIn 0.2s ease;
+}
+
+/* ============================================================
+   SECTION HEADERS IN CONTENT
+   ============================================================ */
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.1px;
+}
+.section-subtitle {
+  font-size: 12.5px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+/* ============================================================
+   STATUS DOTS
+   ============================================================ */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.status-dot.online {
+  background: #506D9C !important;
+  box-shadow: 0 0 8px rgba(80, 109, 156, 0.7) !important;
+  animation: pulse-sidebar-blue 2s infinite !important;
+}
+.status-dot.warning { background: var(--color-warning); }
+.status-dot.offline { background: var(--color-text-muted); }
+.status-dot.critical { background: var(--color-danger); animation: pulse-red 1.5s infinite; }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modalSlideIn {
+  from { transform: scale(0.95) translateY(8px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse-sidebar-blue {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(80, 109, 156, 0.55); }
+  50% { box-shadow: 0 0 0 6px rgba(80, 109, 156, 0); }
+}
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(80, 109, 156, 0.55); }
+  50% { box-shadow: 0 0 0 6px rgba(80, 109, 156, 0); }
+}
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+  50% { box-shadow: 0 0 0 5px rgba(239,68,68,0); }
+}
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+.animate-fade-in { animation: fadeIn 0.2s ease; }
+.animate-fade-up { animation: fadeInUp 0.25s ease; }
+.animate-slide-left { animation: slideInLeft 0.2s ease; }
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-surface-2) 25%, var(--color-border) 50%, var(--color-surface-2) 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* ============================================================
+   MEDICAL GRID BACKGROUND
+   ============================================================ */
+.bg-medical-grid {
+  background-size: 32px 32px;
+  background-image:
+    linear-gradient(to right, rgba(15, 82, 186, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 82, 186, 0.03) 1px, transparent 1px);
+}
+.dark .bg-medical-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+}
+
+/* ============================================================
+   GLOW EFFECTS
+   ============================================================ */
+.glow-blue { box-shadow: 0 0 20px rgba(15, 82, 186, 0.15); }
+.glow-teal { box-shadow: 0 0 20px rgba(59, 78, 106, 0.25); }
+.glow-green { box-shadow: 0 0 20px rgba(59, 78, 106, 0.25); }
+.glow-red { box-shadow: 0 0 20px rgba(239, 68, 68, 0.15); }
+
+/* ============================================================
+   AVATAR
+   ============================================================ */
+.docr-avatar {
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+.docr-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 4px;
+}
+.docr-tab {
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.docr-tab.active {
+  background: var(--color-surface);
+  color: var(--color-brand-primary);
+  font-weight: 600;
+  box-shadow: var(--shadow-xs);
+}
+.dark .docr-tab.active {
+  color: #60A5FA;
+}
+
+/* ============================================================
+   SEARCH BAR
+   ============================================================ */
+.docr-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-full);
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+.docr-search:hover, .docr-search:focus-within {
+  border-color: var(--color-brand-primary);
+  box-shadow: 0 0 0 3px rgba(15,82,186,0.08);
+  background: var(--color-surface);
+}
+
+/* ============================================================
+   PROGRESS BARS
+   ============================================================ */
+.docr-progress {
+  height: 6px;
+  background: var(--color-surface-2);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+.docr-progress-bar {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ============================================================
+   DIVIDERS
+   ============================================================ */
+.docr-divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 16px 0;
+}
+
+/* ============================================================
+   NOTIFICATIONS / ALERTS
+   ============================================================ */
+.docr-alert {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border-left: 3px solid;
+  font-size: 13px;
+}
+.docr-alert-success { background: var(--color-success-bg); border-color: var(--color-success); color: #3B4E6A; }
+.dark .docr-alert-success { color: #c5d2e3; }
+.docr-alert-warning { background: var(--color-warning-bg); border-color: var(--color-warning); color: #B45309; }
+.dark .docr-alert-warning { color: #FCD34D; }
+.docr-alert-danger { background: var(--color-danger-bg); border-color: var(--color-danger); color: #B91C1C; }
+.dark .docr-alert-danger { color: #FCA5A5; }
+.docr-alert-info { background: var(--color-info-bg); border-color: var(--color-info); color: #1D4ED8; }
+.dark .docr-alert-info { color: #93C5FD; }
+
+/* ============================================================
+   TYPOGRAPHY HELPERS
+   ============================================================ */
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-muted { color: var(--color-text-muted); }
+.text-brand { color: var(--color-brand-primary); }
+.text-accent { color: var(--color-brand-accent); }
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-danger { color: var(--color-danger); }
+
+/* ============================================================
+   RESPONSIVE MOBILE ADJUSTMENTS
+   ============================================================ */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 0px;
+    --header-height: 56px;
+  }
+  .docr-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease, width 0.25s ease;
+    width: 260px;
+    z-index: 100;
+  }
+  .docr-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  .docr-main {
+    margin-left: 0 !important;
+  }
+  .docr-content {
+    padding: 16px;
+  }
+}
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+@media print {
+  /* Suppress web navigation, overlays & chrome when printing */
+  .no-print,
+  .docr-sidebar,
+  .docr-topbar,
+  aside,
+  header,
+  nav,
+  button:not(.allow-print),
+  .command-palette-backdrop {
+    display: none !important;
+  }
+
+  body, html {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .docr-main { margin-left: 0 !important; }
+  .docr-content { padding: 0 !important; }
+
+  /* Ensure printable sheets take standard clean document layout */
+  #printable-invoice-sheet,
+  #printable-rx-sheet,
+  #printable-health-card-sheet {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 12mm !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+    border: none !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  @page {
+    size: auto;
+    margin: 10mm;
+  }
+}
+
+/* ============================================================
+   GLASSMORPHIC BUTTON SUITE (MEDICORE / DOCR EXECUTIVE)
+   ============================================================ */
+
+/* 1. Frosted Steel Slate Blue Crystal (Primary Clinical Action) */
+.glass-btn-teal {
+  position: relative;
+  background: rgba(59, 78, 106, 0.14);
+  color: #3B4E6A;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(72, 94, 131, 0.35);
+  box-shadow: 0 4px 16px -2px rgba(59, 78, 106, 0.22), inset 0 1px 1px 0 rgba(255, 255, 255, 0.6);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 700;
+}
+.dark .glass-btn-teal {
+  background: rgba(80, 109, 156, 0.25);
+  color: #c5d2e3;
+  border-color: rgba(80, 109, 156, 0.45);
+  box-shadow: 0 4px 20px -2px rgba(59, 78, 106, 0.35), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+}
+.glass-btn-teal:hover {
+  background: linear-gradient(135deg, #3B4E6A 0%, #485E83 100%);
+  color: #ffffff;
+  border-color: #3B4E6A;
+  box-shadow: 0 8px 24px -2px rgba(59, 78, 106, 0.45);
+  transform: translateY(-1px);
+}
+.dark .glass-btn-teal:hover {
+  background: linear-gradient(135deg, #485E83 0%, #506D9C 100%);
+  color: #ffffff;
+  border-color: #506D9C;
+  box-shadow: 0 8px 26px -2px rgba(80, 109, 156, 0.50);
+}
+.glass-btn-teal:active {
+  transform: scale(0.97);
+}
+
+/* 2. Liquid Aerogel Glass (Neutral / Secondary Actions) */
+.glass-btn-neutral {
+  position: relative;
+  background: rgba(255, 255, 255, 0.65);
+  color: #334155;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.04), inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+}
+.dark .glass-btn-neutral {
+  background: rgba(15, 23, 42, 0.45);
+  color: #e2e8f0;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+}
+.glass-btn-neutral:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(203, 213, 225, 0.8);
+  box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.07);
+  transform: translateY(-1px);
+}
+.dark .glass-btn-neutral:hover {
+  background: rgba(30, 41, 59, 0.65);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.45);
+}
+.glass-btn-neutral:active {
+  transform: scale(0.97);
+}
+
+/* 3. Frosted Obsidian Dark Glass (Security & Super Admin) */
+.glass-btn-obsidian {
+  position: relative;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
+  color: #ffffff;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 700;
+}
+.glass-btn-obsidian:hover {
+  background: linear-gradient(180deg, rgba(51, 65, 85, 0.9) 0%, rgba(30, 41, 59, 0.95) 100%);
+  border-color: rgba(45, 212, 191, 0.45);
+  box-shadow: 0 8px 24px -2px rgba(0, 0, 0, 0.5), 0 0 12px rgba(45, 212, 191, 0.2);
+  transform: translateY(-1px);
+}
+.glass-btn-obsidian:active {
+  transform: scale(0.97);
+}
+
+/* 4. Vitreous Ruby Glass (Critical Acuity & STAT Alert) */
+.glass-btn-ruby {
+  position: relative;
+  background: rgba(244, 63, 94, 0.12);
+  color: #be123c;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(251, 113, 133, 0.35);
+  box-shadow: 0 4px 16px -2px rgba(244, 63, 94, 0.2), inset 0 1px 1px 0 rgba(255, 255, 255, 0.5);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 800;
+}
+.dark .glass-btn-ruby {
+  background: rgba(244, 63, 94, 0.18);
+  color: #fecdd3;
+  border-color: rgba(251, 113, 133, 0.3);
+  box-shadow: 0 4px 20px -2px rgba(244, 63, 94, 0.28), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+}
+.glass-btn-ruby:hover {
+  background: rgba(244, 63, 94, 0.22);
+  border-color: rgba(251, 113, 133, 0.6);
+  box-shadow: 0 8px 24px -2px rgba(244, 63, 94, 0.35);
+  transform: translateY(-1px);
+}
+.dark .glass-btn-ruby:hover {
+  background: rgba(244, 63, 94, 0.28);
+  border-color: rgba(251, 113, 133, 0.5);
+  box-shadow: 0 8px 26px -2px rgba(244, 63, 94, 0.45);
+}
+.glass-btn-ruby:active {
+  transform: scale(0.97);
+}
+
+/* 5. Liquid Capsule Glass Pill (Segmented Controls & Tab Bars) */
+.glass-pill-container {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.dark .glass-pill-container {
+  background: rgba(2, 6, 23, 0.4);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.glass-pill-active {
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #3B4E6A 0%, #485E83 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 2px 10px 0 rgba(59, 78, 106, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.4) !important;
+  font-weight: 700;
+}
+.dark .glass-pill-active {
+  background: linear-gradient(135deg, #485E83 0%, #506D9C 100%) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 2px 12px 0 rgba(59, 78, 106, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ============================================================
+   GLOBAL PORTAL BUTTON SUITE (HARMONIZED STEEL SLATE BLUE)
+   Applies user's exact shade across every portal & button
+   ============================================================ */
+.btn-steel-slate {
+  background: linear-gradient(135deg, #3B4E6A 0%, #485E83 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 4px 14px rgba(59, 78, 106, 0.35) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.btn-steel-slate:hover {
+  background: linear-gradient(135deg, #2E3E55 0%, #3B4E6A 100%) !important;
+  box-shadow: 0 6px 20px rgba(59, 78, 106, 0.48) !important;
+  transform: translateY(-1px);
+}
