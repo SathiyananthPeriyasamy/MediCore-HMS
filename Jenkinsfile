@@ -63,7 +63,10 @@ pipeline {
         stage('Deploy to AWS EC2') {
             steps {
                 echo "Deploying to AWS EC2 instance..."
-                withCredentials([sshUserPrivateKey(credentialsId: "${EC2_CREDENTIALS_ID}", keyFileVariable: 'SSH_KEY_FILE')]) {
+                withCredentials([
+                    sshUserPrivateKey(credentialsId: "${EC2_CREDENTIALS_ID}", keyFileVariable: 'SSH_KEY_FILE'),
+                    usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')
+                ]) {
                     bat """
                         rem 0. Fix Windows permissions on SSH key file (strip BUILTIN\\Users)
                         powershell -Command "\$acl = Get-Acl '%SSH_KEY_FILE%'; \$acl.SetAccessRuleProtection(\$true, \$false); \$rule = New-Object System.Security.AccessControl.FileSystemAccessRule([System.Security.Principal.WindowsIdentity]::GetCurrent().Name, 'FullControl', 'Allow'); \$acl.SetAccessRule(\$rule); Set-Acl '%SSH_KEY_FILE%' \$acl"
@@ -76,8 +79,8 @@ pipeline {
                         rem 2. Copy production docker-compose file to EC2
                         scp -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no docker-compose.prod.yml %EC2_USER%@%EC2_HOST%:%DEPLOY_PATH%/docker-compose.yml
 
-                        rem 3. Pull latest images and restart containers on EC2
-                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no %EC2_USER%@%EC2_HOST% "cd %DEPLOY_PATH% && export DOCKER_IMAGE_BACKEND=${BACKEND_IMAGE}:${IMAGE_TAG} && export DOCKER_IMAGE_FRONTEND=${FRONTEND_IMAGE}:${IMAGE_TAG} && docker compose pull && docker compose up -d --remove-orphans && docker image prune -f"
+                        rem 3. Authenticate EC2 to DockerHub, pull images, and restart containers
+                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no %EC2_USER%@%EC2_HOST% "echo %DH_PASS% | docker login -u %DH_USER% --password-stdin && cd %DEPLOY_PATH% && export DOCKER_IMAGE_BACKEND=${BACKEND_IMAGE}:${IMAGE_TAG} && export DOCKER_IMAGE_FRONTEND=${FRONTEND_IMAGE}:${IMAGE_TAG} && docker compose pull && docker compose up -d --remove-orphans && docker image prune -f && docker logout"
                     """
                 }
             }
