@@ -39,7 +39,9 @@ pipeline {
                 echo "Building Docker images with tag: ${IMAGE_TAG} and latest..."
                 bat """
                     docker build -t ${BACKEND_IMAGE}:${IMAGE_TAG} -t ${BACKEND_IMAGE}:latest -f backend/Dockerfile .
+                    if errorlevel 1 exit /b 1
                     docker build -t ${FRONTEND_IMAGE}:${IMAGE_TAG} -t ${FRONTEND_IMAGE}:latest -f frontend/Dockerfile .
+                    if errorlevel 1 exit /b 1
                 """
             }
         }
@@ -49,12 +51,16 @@ pipeline {
                 echo 'Authenticating and pushing images to DockerHub...'
                 withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
                     bat """
-                        echo %DH_PASS% | docker login -u %DH_USER% --password-stdin
+                        echo %DH_PASS%| docker login -u %DH_USER% --password-stdin
+                        if errorlevel 1 exit /b 1
                         docker push ${BACKEND_IMAGE}:${IMAGE_TAG}
+                        if errorlevel 1 exit /b 1
                         docker push ${BACKEND_IMAGE}:latest
+                        if errorlevel 1 exit /b 1
                         docker push ${FRONTEND_IMAGE}:${IMAGE_TAG}
+                        if errorlevel 1 exit /b 1
                         docker push ${FRONTEND_IMAGE}:latest
-                        docker logout
+                        if errorlevel 1 exit /b 1
                     """
                 }
             }
@@ -100,6 +106,7 @@ pipeline {
         always {
             echo 'Cleaning up local workspace images...'
             bat """
+                docker logout || exit 0
                 docker rmi ${BACKEND_IMAGE}:${IMAGE_TAG} ${BACKEND_IMAGE}:latest ${FRONTEND_IMAGE}:${IMAGE_TAG} ${FRONTEND_IMAGE}:latest || exit 0
             """
         }
