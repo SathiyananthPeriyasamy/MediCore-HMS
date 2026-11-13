@@ -9,11 +9,11 @@ pipeline {
         FRONTEND_IMAGE        = "${DOCKERHUB_REPO}/medicore-frontend"
         IMAGE_TAG             = "${BUILD_NUMBER}"
 
-        // AWS EC2 Target Server Configuration
-        EC2_CREDENTIALS_ID    = 'ec2-ssh-mum'           // Jenkins SSH key Credentials ID
-        EC2_USER              = 'ubuntu'                // EC2 SSH User
-        EC2_HOST              = credentials('ec2-host') // Jenkins Secret Text containing your EC2 IP
-        DEPLOY_PATH           = '/home/ubuntu/medicore-hms'
+        // Physical Target Server Configuration (Company On-Premise Server)
+        SERVER_HOST           = "${ec2-host}"         // Physical Server IP
+        SERVER_USER           = 'cubeai'                // Target Linux user (e.g. ubuntu, root, admin, devops)
+        SERVER_CREDENTIALS_ID = 'ec2-ssh-mum'           // Jenkins SSH key Credentials ID
+        DEPLOY_PATH           = "/home/${SERVER_USER}/medicore-hms"
     }
 
     stages {
@@ -66,11 +66,11 @@ pipeline {
             }
         }
 
-        stage('Deploy to AWS EC2') {
+        stage('Deploy to Physical Server') {
             steps {
-                echo "Deploying to AWS EC2 instance..."
+                echo "Deploying to Physical Server (${SERVER_HOST})..."
                 withCredentials([
-                    sshUserPrivateKey(credentialsId: "${EC2_CREDENTIALS_ID}", keyFileVariable: 'SSH_KEY_FILE'),
+                    sshUserPrivateKey(credentialsId: "${SERVER_CREDENTIALS_ID}", keyFileVariable: 'SSH_KEY_FILE'),
                     usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')
                 ]) {
                     bat """
@@ -79,14 +79,14 @@ pipeline {
                         icacls "%SSH_KEY_FILE%" /remove:g "BUILTIN\\Users" >nul 2>&1
                         icacls "%SSH_KEY_FILE%" /remove:g "Users" >nul 2>&1
 
-                        rem 1. Prepare target deployment directory on EC2
-                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no %EC2_USER%@%EC2_HOST% "mkdir -p %DEPLOY_PATH%"
+                        rem 1. Prepare target deployment directory on server
+                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no %SERVER_USER%@%SERVER_HOST% "mkdir -p %DEPLOY_PATH%"
 
-                        rem 2. Copy production docker-compose file to EC2
-                        scp -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no docker-compose.prod.yml %EC2_USER%@%EC2_HOST%:%DEPLOY_PATH%/docker-compose.yml
+                        rem 2. Copy production docker-compose file to server
+                        scp -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no docker-compose.prod.yml %SERVER_USER%@%SERVER_HOST%:%DEPLOY_PATH%/docker-compose.yml
 
-                        rem 3. Authenticate EC2 to DockerHub, pull images, and restart containers
-                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no %EC2_USER%@%EC2_HOST% "echo %DH_PASS% | docker login -u %DH_USER% --password-stdin && cd %DEPLOY_PATH% && export DOCKER_IMAGE_BACKEND=${BACKEND_IMAGE}:${IMAGE_TAG} && export DOCKER_IMAGE_FRONTEND=${FRONTEND_IMAGE}:${IMAGE_TAG} && docker compose pull && docker compose up -d --remove-orphans && docker image prune -f && docker logout"
+                        rem 3. Authenticate server to DockerHub, pull images, and restart containers
+                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no %SERVER_USER%@%SERVER_HOST% "echo %DH_PASS% | docker login -u %DH_USER% --password-stdin && cd %DEPLOY_PATH% && export DOCKER_IMAGE_BACKEND=${BACKEND_IMAGE}:${IMAGE_TAG} && export DOCKER_IMAGE_FRONTEND=${FRONTEND_IMAGE}:${IMAGE_TAG} && docker compose pull && docker compose up -d --remove-orphans && docker image prune -f && docker logout"
                     """
                 }
             }
@@ -94,9 +94,9 @@ pipeline {
 
         stage('Verify Deployment Health') {
             steps {
-                echo "Running post-deployment health check on EC2..."
+                echo "Running post-deployment health check on server (${SERVER_HOST})..."
                 bat """
-                    curl.exe --fail --retry 5 --retry-delay 3 http://%EC2_HOST%/api/health
+                    curl.exe --fail --retry 5 --retry-delay 3 http://%SERVER_HOST%/api/health
                 """
             }
         }
@@ -111,7 +111,7 @@ pipeline {
             """
         }
         success {
-            echo "🎉 MediCore HMS successfully deployed to AWS EC2!"
+            echo "🎉 MediCore HMS successfully deployed to Physical Server (http://${SERVER_HOST})!"
         }
         failure {
             echo '❌ Pipeline failed! Please check logs for details.'
