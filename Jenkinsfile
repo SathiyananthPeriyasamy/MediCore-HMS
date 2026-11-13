@@ -61,6 +61,9 @@ pipeline {
                         if errorlevel 1 exit /b 1
                         docker push ${FRONTEND_IMAGE}:latest
                         if errorlevel 1 exit /b 1
+
+                        rem Safe DockerHub Tag Cleanup: Retain latest + last 3 builds for backup, delete older tags via API
+                        powershell -Command "try { \\\$auth = Invoke-RestMethod -Uri 'https://hub.docker.com/v2/users/login/' -Method Post -Body (@{username='%DH_USER%'; password='%DH_PASS%'} | ConvertTo-Json) -ContentType 'application/json'; \\\$token = \\\$auth.token; \\\$oldTag = [int]'${IMAGE_TAG}' - 3; if (\\\$oldTag -gt 0) { foreach (\\\$repo in @('medicore-backend', 'medicore-frontend')) { Invoke-RestMethod -Uri \\\"https://hub.docker.com/v2/repositories/%DH_USER%/\\\$repo/tags/\\\$oldTag/\\\" -Method Delete -Headers @{Authorization=\\\"Bearer \\\$token\\\"} -ErrorAction SilentlyContinue; Write-Host \\\"Cleaned up old DockerHub tag: \\\$repo:\\\$oldTag\\\"; } } } catch { Write-Host 'DockerHub cleanup skipped.' }"
                     """
                 }
             }
@@ -80,13 +83,13 @@ pipeline {
                         icacls "%SSH_KEY_FILE%" /remove:g "Users" >nul 2>&1
 
                         rem 1. Prepare target deployment directory on server
-                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no %SERVER_USER%@%SERVER_HOST% "mkdir -p %DEPLOY_PATH%"
+                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=15 %SERVER_USER%@%SERVER_HOST% "mkdir -p %DEPLOY_PATH%"
 
                         rem 2. Copy production docker-compose file to server
-                        scp -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no docker-compose.prod.yml %SERVER_USER%@%SERVER_HOST%:%DEPLOY_PATH%/docker-compose.yml
+                        scp -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=15 docker-compose.prod.yml %SERVER_USER%@%SERVER_HOST%:%DEPLOY_PATH%/docker-compose.yml
 
-                        rem 3. Authenticate server to DockerHub, pull images, and restart containers
-                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no %SERVER_USER%@%SERVER_HOST% "echo %DH_PASS% | docker login -u %DH_USER% --password-stdin && cd %DEPLOY_PATH% && export DOCKER_IMAGE_BACKEND=${BACKEND_IMAGE}:${IMAGE_TAG} && export DOCKER_IMAGE_FRONTEND=${FRONTEND_IMAGE}:${IMAGE_TAG} && docker compose pull && docker compose up -d --remove-orphans && docker image prune -f && docker logout"
+                        rem 3. Tag current version as :backup, pull latest, restart containers, and safely clean old images
+                        ssh -i "%SSH_KEY_FILE%" -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=15 %SERVER_USER%@%SERVER_HOST% "echo %DH_PASS% | docker login -u %DH_USER% --password-stdin && cd %DEPLOY_PATH% && docker tag ${BACKEND_IMAGE}:latest ${BACKEND_IMAGE}:backup 2>/dev/null || true && docker tag ${FRONTEND_IMAGE}:latest ${FRONTEND_IMAGE}:backup 2>/dev/null || true && export DOCKER_IMAGE_BACKEND=${BACKEND_IMAGE}:${IMAGE_TAG} && export DOCKER_IMAGE_FRONTEND=${FRONTEND_IMAGE}:${IMAGE_TAG} && docker compose pull && docker compose up -d --remove-orphans && for repo in ${BACKEND_IMAGE} ${FRONTEND_IMAGE}; do docker images \\\$repo --format '{{.Repository}}:{{.Tag}}' | grep -v ':latest' | grep -v ':${IMAGE_TAG}' | grep -v ':backup' | xargs -r docker rmi 2>/dev/null || true; done && docker image prune -f && docker logout"
                     """
                 }
             }
@@ -108,6 +111,7 @@ pipeline {
             bat '''
                 docker logout || exit 0
                 docker rmi %BACKEND_IMAGE%:%IMAGE_TAG% %BACKEND_IMAGE%:latest %FRONTEND_IMAGE%:%IMAGE_TAG% %FRONTEND_IMAGE%:latest 2>nul || exit 0
+                docker image prune -f 2>nul || exit 0
             '''
         }
         success {

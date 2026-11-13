@@ -6,6 +6,9 @@ WORKDIR /app
 # Copy dependency specifications
 COPY package*.json ./
 
+# Configure npm retry settings for reliable network downloads
+RUN npm config set fetch-retries 5 && npm config set fetch-retry-mintimeout 10000 && npm config set fetch-retry-maxtimeout 60000
+
 # Install all dependencies required for building
 RUN npm ci --legacy-peer-deps
 

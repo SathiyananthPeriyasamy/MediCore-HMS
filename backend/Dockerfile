@@ -5,8 +5,11 @@ WORKDIR /app
 # Copy dependency specifications
 COPY package*.json ./
 
-# Install runtime dependencies and tsx for TypeScript execution
-RUN npm ci --omit=dev --legacy-peer-deps && npm install tsx typescript --legacy-peer-deps
+# Configure npm retry settings for reliable network downloads
+RUN npm config set fetch-retries 5 && npm config set fetch-retry-mintimeout 10000 && npm config set fetch-retry-maxtimeout 60000
+
+# Install production dependencies (includes tsx and typescript)
+RUN npm ci --omit=dev --legacy-peer-deps
 
 # Copy configuration and backend source code
 COPY tsconfig.json ./
